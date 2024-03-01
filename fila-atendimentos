@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fila de Socorristas</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    /* CSS for styling the list */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+        color: #333;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th:first-child, td:first-child {
+        width: 10%;
+    }
+    th:last-child, td:last-child {
+        width: 50%; /* Updated width for action column */
+    }
+    td:last-child button {
+        margin-right: 5px;
+    }
+    .arrow-up-btn {
+        background-color: #007bff; /* Blue color for arrow up */
+        color: #fff;
+    }
+    .arrow-down-btn {
+        background-color: #ff0000; /* Red color for arrow down */
+        color: #fff;
+    }
+    .edit-btn {
+        background-color: #007bff; /* Blue color for edit button */
+        color: #fff;
+    }
+    .delete-btn {
+        background-color: #ff0000; /* Red color for delete button */
+        color: #fff;
+    }
+    .move-bottom-btn {
+        background-color: #007bff; /* Blue color for move to bottom button */
+        color: #fff;
+    }
+    .copy-btn {
+        background-color: #007bff; /* Blue color for copy button */
+        color: #fff;
+    }
+    .btn {
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+    .edit-btn .fa-pencil-alt {
+        margin-right: 0.5em;
+    }
+    .btn:hover {
+        background-color: #0056b3;
+    }
+    .list-names {
+        margin-top: 10px;
+        padding: 5px;
+        width: calc(100% - 110px);
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Fila de Atendimento</h2>
+    <h2 id="rushStatus"></h2> <!-- Rush status display -->
+    <table>
+        <thead>
+            <tr>
+                <th>Ordem</th>
+                <th>Socorrista</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody id="nameList">
+            <!-- List items will be dynamically added here -->
+        </tbody>
+    </table>
+    <button class="insert-btn" onclick="addNewName()">Adicionar</button>
+    <button class="move-bottom-btn" onclick="moveFirstToBottom()">Liberação</button>
+    <input type="text" class="list-names" id="listNames" readonly>
+    <button class="copy-btn" onclick="copyNames()">Copiar</button>
+</div>
+
+<script>
+    // Array to hold the names
+    let names = ["graven", "mari", "bby", "bibi", "bae"];
+
+    // Function to display the names in the list
+    function displayNames() {
+        const list = document.getElementById("nameList");
+        list.innerHTML = ""; // Clear previous list items
+        names.forEach((name, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${name}</td>
+                <td>
+                    <button class="arrow-up-btn btn" onclick="moveUp(${index})"><i class="fas fa-arrow-up"></i></button>
+                    <button class="arrow-down-btn btn" onclick="moveDown(${index})"><i class="fas fa-arrow-down"></i></button>
+                    <button class="edit-btn btn" onclick="editName(${index})"><i class="fas fa-pencil-alt"></i></button>
+                    <button class="delete-btn btn" onclick="deleteName(${index})"><i class="fas fa-times"></i></button>
+                </td>
+            `;
+            list.appendChild(row);
+        });
+        updateListNames(); // Update list names input field
+        updateRushStatus(); // Update rush status
+    }
+
+    // Function to edit a name
+    function editName(index) {
+        const newName = prompt("Enter the new name:");
+        if (newName !== null) {
+            names[index] = newName.trim();
+            displayNames();
+        }
+    }
+
+    // Function to delete a name
+    function deleteName(index) {
+        names.splice(index, 1);
+        displayNames();
+    }
+
+    // Function to move name up
+    function moveUp(index) {
+        if (index > 0) {
+            const temp = names[index];
+            names[index] = names[index - 1];
+            names[index - 1] = temp;
+            displayNames();
+        }
+    }
+
+    // Function to move name down
+    function moveDown(index) {
+        if (index < names.length - 1) {
+            const temp = names[index];
+            names[index] = names[index + 1];
+            names[index + 1] = temp;
+            displayNames();
+        }
+    }
+
+    // Function to move the first record to the bottom
+    function moveFirstToBottom() {
+        if (names.length > 0) {
+            const firstItem = names.shift(); // Remove first item
+            names.push(firstItem); // Add it to the end
+            displayNames();
+        }
+    }
+
+    // Function to add new name to the bottom of the list
+    function addNewName() {
+        const newName = prompt("Adicione um Socorrista:");
+        if (newName !== null && newName.trim() !== "") {
+            names.push(newName.trim());
+            displayNames();
+        }
+    }
+
+    // Function to update list names input field
+    function updateListNames() {
+        document.getElementById("listNames").value = ":r " + names.join(" ");
+    }
+
+    // Function to copy names from the input field
+    function copyNames() {
+        const listNames = document.getElementById("listNames");
+        listNames.select();
+        document.execCommand("copy");
+    }
+
+    // Function to update rush status
+    function updateRushStatus() {
+        const rushStatus = document.getElementById("rushStatus");
+        if (names.length <= 4) {
+            rushStatus.textContent = "RUSH ON";
+            rushStatus.style.color = "red";
+        } else {
+            rushStatus.textContent = "RUSH OFF";
+            rushStatus.style.color = "blue";
+        }
+    }
+
+    // Display the initial list and rush status
+    displayNames();
+</script>
+
+</body>
+</html>

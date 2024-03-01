@@ -14,7 +14,7 @@
         padding: 0;
     }
     .container {
-        max-width: 600px;
+        max-width: 400px;
         margin: 20px auto;
         padding: 20px;
         background-color: #fff;
@@ -58,8 +58,12 @@
         background-color: #ff0000; /* Red color for delete button */
         color: #fff;
     }
+	.insert-btn {
+        background-color: #007bff; /* Blue color for insert button */
+        color: #fff;
+    }
     .move-bottom-btn {
-        background-color: #007bff; /* Blue color for move to bottom button */
+        background-color: #ff0000; /* Red color for move to bottom button */
         color: #fff;
     }
     .copy-btn {
@@ -68,7 +72,7 @@
     }
     .btn {
         border: none;
-        border-radius: 5px;
+        border-radius: 10px;
         padding: 5px 10px;
         cursor: pointer;
         margin-right: 5px;
@@ -82,7 +86,7 @@
     .list-names {
         margin-top: 10px;
         padding: 5px;
-        width: calc(100% - 110px);
+        width: calc(100%);
         border: 1px solid #ccc;
         border-radius: 5px;
         resize: none;
@@ -106,10 +110,10 @@
             <!-- List items will be dynamically added here -->
         </tbody>
     </table>
+    <input type="text" class="list-names" id="listNames" readonly><br><br>
     <button class="insert-btn" onclick="addNewName()">Adicionar</button>
     <button class="move-bottom-btn" onclick="moveFirstToBottom()">Liberação</button>
     <button class="copy-btn" onclick="copyNames()">Copiar</button>
-    <input type="text" class="list-names" id="listNames" readonly>
 </div>
 
 <script>
@@ -205,15 +209,15 @@
 
     // Function to update rush status
     function updateRushStatus() {
-        const rushStatus = document.getElementById("rushStatus");
-        if (names.length <= 4) {
-            rushStatus.textContent = "RUSH ON";
-            rushStatus.style.color = "red";
-        } else {
-            rushStatus.textContent = "RUSH OFF";
-            rushStatus.style.color = "blue";
-        }
+    const rushStatus = document.getElementById("rushStatus");
+    if (names.length <= 4) {
+        rushStatus.textContent = "RUSH ON";
+        rushStatus.style.color = "#ff0000";
+    } else {
+        rushStatus.textContent = "RUSH OFF";
+        rushStatus.style.color = "#007bff";
     }
+}
 
     // Display the initial list and rush status
     displayNames();

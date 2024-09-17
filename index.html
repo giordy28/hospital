@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fila de Socorristas</title>
+<title>Fila de Atendimentos</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
     /* CSS for styling the list */
     body {
@@ -97,12 +98,13 @@
 
 <div class="container">
     <h2>Fila de Atendimento</h2>
-    <h2 id="rushStatus"></h2> <!-- Rush status display -->
+	<!--<h2 id="rushStatus"></h2> <!-- Rush status display -->
+
     <table>
         <thead>
             <tr>
                 <th>Ordem</th>
-                <th>Socorrista</th>
+                <th>Médico(a)</th>
                 <th>Ação</th>
             </tr>
         </thead>
@@ -112,13 +114,13 @@
     </table>
     <input type="text" class="list-names" id="listNames" readonly><br><br>
     <button class="insert-btn" onclick="addNewName()">Adicionar</button>
-    <button class="move-bottom-btn" onclick="moveFirstToBottom()">Liberação</button>
+    <button class="move-bottom-btn" onclick="moveFirstToBottom()">Avançar</button>
     <button class="copy-btn" onclick="copyNames()">Copiar</button>
 </div>
 
 <script>
     // Array to hold the names
-    let names = ["graven", "mari", "bby", "bibi", "bae"];
+    let names = ["Ciews", "Graven", "Biaa"];
 
     // Function to display the names in the list
     function displayNames() {
